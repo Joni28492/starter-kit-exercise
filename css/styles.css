@@ -1,0 +1,433 @@
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+html {
+    padding: 0;
+    margin: 0;
+
+    box-sizing: border-box;
+
+    font-family: Inter, 'sans-serif';
+    font-size: 20px;
+    font-weight: normal;
+    color: hsl(0, 0%, 24%);
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5. h6 {
+    color: hsl(0, 0%, 16%);
+}
+
+body.has-overlay:after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color: hsla(0, 0%, 0%, 0.24);
+}
+
+
+/*
+* Utilities
+*/
+.d-none {
+    display: none !important;
+}
+
+.icon {
+    display: inline-block;
+
+    width: 24px;
+    height: 24px;
+}
+
+.icon__inner {
+    width: 100%;
+    height: 100%;
+}
+
+/*
+* Exchanges Finder styles
+* blue--560: #507BCE;
+* blue--640: #7093D7;
+* blue--880: #CFDBF2;
+* blue--960: #EFF3FB;
+*
+* gray--160: #292929;
+* gray--640: #A3A3A3;
+*
+*/
+.header {
+    position: relative;
+    padding: 40px 0 56px;
+
+    text-align: center;
+    background-color: #EFF3FB;
+}
+
+.title {
+    margin: 0;
+
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1;
+}
+
+.results {
+    width: 90%;
+    max-width: 960px;
+    margin: 64px auto;
+
+    text-align: center;
+}
+
+.results__header {
+
+}
+
+.results__title {
+    margin: 0;
+
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1;
+}
+
+.results__content {
+    margin-top: 40px;
+}
+
+.results__pagination {
+    margin-top: 32px;
+
+    font-size: 16px;
+}
+
+.results__pagination-prev,
+.results__pagination-next {
+    display: inline-block;
+    margin: 0 16px;
+}
+
+.results__pagination-indicator {
+
+}
+
+
+/*
+* Currency list styles
+*/
+.currencylist {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}
+
+.currencylist__item {
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.currencylist__item:hover {
+    background-color: #fafafa;
+}
+
+.currencylist__item--header {
+    border-bottom: 0;
+
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #a3a3a3;
+}
+
+.currencylist__item,
+.currencylist__item-header {
+    display: flex;
+    align-items: center;
+
+    padding: 16px 24px;
+}
+
+.currencylist__item {
+}
+
+.currencylist__item-code {
+    min-width: 16%;
+    text-align: left;
+}
+
+.currencylist__item-name {
+    width: 60%;
+
+    text-align: left;
+}
+
+.currencylist__item-actions {
+    margin: 0 0 0 auto;
+}
+
+.currencylist__item-actions--fav svg stroke {
+    color: green;
+}
+
+
+
+/*
+* Add item modal styles
+*/
+.currencydetail {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    transform: translateX(100%);
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 48px;
+    width: 80%;
+    max-width: 720px;
+
+    background-color: #fff;
+    box-shadow: -2px 0 32px -8px hsla(0, 0%, 0%, 0.08);
+
+    transition: transform .4s ease-in-out;
+}
+
+.currencydetail--show {
+    transform: translateX(0);
+}
+
+.currencydetail__header {
+
+}
+.currencydetail__header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 16px;
+}
+
+.currencydetail__title {
+    margin: 48px 0 0;
+
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.currencydetail__title-code {
+    font-weight: 700;
+    color: hsl(0, 0%, 64%);
+}
+
+.currencydetail__title-name {
+    margin-left: 16px;
+}
+
+.currencydetail__subtitle {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.currencydetail__filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 16px;
+
+}
+.currencydetail__close {
+
+}
+
+/*
+* Currency Data Sheet
+*/
+.currencydetail__datasheet {
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: scroll;
+
+    padding-right: 16px;
+}
+
+.currencydetail__datasheet-row {
+    display: flex;
+    align-items: center;
+
+    padding: 12px 0;
+    border-bottom: 1px dashed #dedede;
+
+    font-size: 18px;
+}
+
+.currencydetail__datasheet-label {
+    width: 20%;
+    padding: 0;
+    margin: 0;
+
+    font-weight: 600;
+    color:#a3a3a3;
+}
+
+.currencydetail__datasheet-data {
+    width: 80%;
+    padding: 0;
+    margin: 0;
+
+    font-size: 21px;
+}
+
+
+
+.field {
+    padding: 12px 16px;
+    border: 1px solid #CFDBF2;
+
+    font-size: 18px;
+    color: hsl(0, 0%, 24%);
+
+    border-radius: 6px;
+}
+
+.field::placeholder {
+    font-weight: 100;
+    color: hsl(0, 0%, 72%);
+}
+
+.field--search {
+    width: 100%;
+    max-width: 100%;
+    padding-left:48px;
+}
+
+.field--search + .btn {
+    margin-left: 8px;
+}
+
+.field-icon {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+
+    width: 24px;
+    height: 24px;
+
+    color: hsl(0, 0%, 64%);
+}
+
+
+
+.searchbox {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 560px;
+    padding: 0 24px;
+
+    transform: translateX(-50%) translateY(50%);
+}
+
+.searchbox__content {
+    position: relative;
+    display: flex;
+}
+
+.searchbox__feedback {
+    margin: 8px 0 0;
+
+    font-size: 13px;
+    line-height: 1.2;
+    color: #333;
+}
+
+
+
+
+/* Links */
+a, a:active, a:visited,
+.link, .link:active, .link:visited {
+    display: inline-flex;
+    align-items: center;
+
+    text-decoration: none;
+    font-weight: 500;
+    color: #7093D7;
+}
+
+a:hover,
+.link:hover {
+    color: #507BCE;
+}
+
+.link__icon {
+    width: 24px;
+    height: 24px;
+}
+
+.link__label {
+    line-height: 1.5;
+}
+
+.link__icon + .link__label {
+    margin-left: 4px;
+}
+
+.link--favs {
+    position: absolute;
+    top: 40px;
+    right: 48px;
+}
+
+
+/* Buttons */
+.btn {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border: 0;
+
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.btn--search {
+    font-weight: 300;
+    color: hsl(0, 0%, 100%);
+
+    background-color: hsl(220, 56%, 56%);
+
+    cursor: pointer;
+}
+
+.btn--search:hover {
+    background-color: hsl(220, 56%, 64%);
+}

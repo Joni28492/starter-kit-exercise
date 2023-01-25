@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Web Programming - Practice / Exchange Finder</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;900&display=swap" rel="stylesheet">
+
+        <link href="./css/styles.css" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <div class="header">
+
+            <h1 class="title">💶 Exchanges</h1>
+            <div class="searchbox js-searchbox">
+                <div class="searchbox__content">
+                    <input class="field field--search js-search-input" type="text" placeholder="Search for currencies...">
+                    <button class="btn btn--search js-clear-btn">Clear&nbsp;Search</button>
+                    <svg class="field-icon" xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Search</title><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/></svg>
+                </div>
+                <p class="searchbox__feedback js-search-feedback">&nbsp;</p>
+            </div>
+
+            <a class="link link--favs js-favs" href="#">
+                <span class="icon link__icon">
+                    <img src="./img/ico-favs-outline.svg" alt="View favs">
+                </span>
+                <span class="link__label">Favs</span>
+            </a>
+
+        </div>
+
+        <article class="results">
+
+            <header class="results__header">
+                <h2 class="results__title js-results-title">3 currencies found.</h2>
+            </header>
+
+            <div class="results__content">
+                <ul class="currencylist js-currencylist">
+
+                    <li class="currencylist__item currencylist__item--header">
+                        <span class="currencylist__item-code">Code</span>
+                        <span class="currencylist__item-name">Name</span>
+                        <span class="currencylist__item-actions">&nbsp;</span>
+                    </li>
+
+                    <!-- <li class="currencylist__item js-currency-item" data-code="ADA">
+                            <span class="currencylist__item-code">ADA</span>
+                            <span class="currencylist__item-name">
+                            <a href="#" class="link">Cardano</a>
+                        </span>
+                        <span class="currencylist__item-actions">
+                            <a class="link js-item-fav" href="#" data-code="ADA">
+                                <span class="icon link__icon">
+                                    <img src="./img/ico-fav-outline.svg" alt="Add to favs">
+                                </span>
+                            </a>
+                        </span>
+                    </li>
+
+                    <li class="currencylist__item js-currency-item" data-code="EUR">
+                        <span class="currencylist__item-code">EUR</span>
+                        <span class="currencylist__item-name">
+                            <a href="#" class="link">Euro</a>
+                        </span>
+                        <span class="currencylist__item-actions">
+                            <a class="link js-item-fav" href="#" data-code="EUR">
+                                <span class="icon link__icon">
+                                    <img src="./img/ico-fav-outline.svg" alt="Add to favs">
+                                </span>
+                            </a>
+                        </span>
+                    </li>
+
+                    <li class="currencylist__item js-currency-item" data-code="USD">
+                        <span class="currencylist__item-code">USD</span>
+                        <span class="currencylist__item-name">
+                            <a href="#" class="link">United States Dollar</a>
+                        </span>
+                        <span class="currencylist__item-actions">
+                            <a class="link js-item-fav" href="#" data-code="USD">
+                                <span class="icon link__icon">
+                                    <img src="./img/ico-fav-outline.svg" alt="Add to favs">
+                                </span>
+                            </a>
+                        </span>
+                    </li> -->
+
+
+
+                </ul>
+            </div>
+
+        </article>
+        <!--  agregar currencydetail--show para mostrar  -->
+        <article class="currencydetail js-currencydetail">
+
+            <header class="currencydetail__header">
+                <div class="currencydetail__header-actions">
+                    <a href="#" class="currencydetail__close js-currencydetail-close">
+                        <span class="link__label">Close</span>
+                        <span class="icon link__icon">
+                            <img src="./img/ico-close-outline.svg" alt="Close detail">
+                        </span>
+                    </a>
+                    <a href="#" class="currencydetail__addfav link js-currencydetail-fav" data-imdb="">
+                        <span class="icon link__icon">
+                            <img class="js-currencydetail-fav-icon" src="img/ico-fav-outline.svg" alt="Add to favs">
+                        </span>
+                        <span class="link__label js-currencydetail-fav-label">Add to favs</span>
+                    </a>
+                </div>
+
+                <h2 class="currencydetail__title">
+                    <span class="currencydetail__title-code js-currencydetail-code">EUR</span>
+                    <span class="currencydetail__title-name js-currencydetail-name">Euro</span>
+                </h2>
+
+                <div class="currencydetail__filter">
+                    <h2 class="currencydetail__subtitle">Exchange List</h3>
+                    <input class="field js-currencydetail-date" type="date" value="2022-04-21">
+                </div>
+            </header>
+
+            <section class="currencydetail__datasheet js-currencydetail-list">
+                <div class="currencydetail__datasheet-row">
+                    <h3 class="currencydetail__datasheet-label">ADA</h3>
+                    <p class="currencydetail__datasheet-data">1.24444</p>
+                </div>
+            </section>
+
+        </article>
+
+        <script type="module" src="./js/main.js"></script>
+    </body>
+</html>
