@@ -10,31 +10,29 @@ export class Draw {
     currenciesTitle = document.querySelector('.js-results-title') 
 
 
-    
     favsLink = document.querySelector('.link--favs')
-    favs = []
     favsIsActive = false
     favsPage = document.querySelector('.js-favs')
 
     listItems = []
     filteredListItems = []
+    
+    
     http = null;
+    favs = null;
 
     //detail sidebar
     currencydetailContainer = document.querySelector('.js-currencydetail')
 
-
-    favs = localStorage.getItem('favs') 
-            ?  JSON.parse(localStorage.getItem('favs')) 
-            : localStorage.setItem('favs', JSON.stringify([]))
 
 
 
     //close details
     btnCloseDetails = null
 
-    constructor(http){
+    constructor(http, favs){
         this.http = http;
+        this.favs = favs
         
         this.fillUlConcurrencyList()
         this.inputSearch.addEventListener( 'keyup', ()=>{
@@ -55,8 +53,8 @@ export class Draw {
                 this.currencydetailContainer.className += ' currencydetail--show'
                 const code  = e.target.parentElement.previousElementSibling.textContent
                 const name = e.target.textContent
-                const deatil = new Detail(code, name)
-
+                const deatil = new Detail(code, name, this.favs)
+                
             }   
 
             // addFavourites 
@@ -65,35 +63,17 @@ export class Draw {
                 const name = e.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].textContent
                 const src = e.target.src
 
-
                 //comprobar si esta como favorito y agregar o borrar
                 if(!src.includes('selected')){
-                    // console.log('no esta seleccionado')
-                    //modify
-
                     //check if exists in favs
-                    if(!this.existInFavs(code)){
-                        //agregar a favs
-                        this.favs.push({code, name})
-                        //agregar al localStorage
-                        localStorage.setItem('favs', JSON.stringify(this.favs))
-                    }
-                    //mod atr
+                    if(!this.favs.existInFavs(code)){ this.favs.addToFavs(code, name) }
                     e.target.src = './img/ico-fav-selected-outline.svg'
                     e.target.alt = "Remove to favs"
 
                 }else if (src.includes('selected')){
-                    // console.log('esta seleccionado')
-                    //modify
+                    this.favs.removeTofavs(code, name)
                     e.target.src = './img/ico-fav-outline.svg'
                     e.target.alt = "Add to favs"
-                    //remove favs
-                    this.favs.splice( {name, code} ,1 )
-                    // console.log(this.favs)
-
-                    //mod localStorage
-                    localStorage.setItem('favs', JSON.stringify(this.favs))
-
                 }
 
             }
@@ -101,8 +81,13 @@ export class Draw {
         
         this.favsPage.addEventListener('click', ()=>{
             // console.log('Filtrar favoritos')
-            //todo toggle favs/current
-            this.drawOnlyFavs()
+            if(this.favsPage.children[1].textContent === 'Favs'){
+                this.drawOnlyFavs()
+                this.favsPage.children[1].textContent = 'All'
+            }else {
+                this.fillUlConcurrencyList()
+                this.favsPage.children[1].textContent = 'Favs'
+            }
                 
             
         })
@@ -111,9 +96,7 @@ export class Draw {
 
   
 
-    existInFavs(code='AAVE'){
-        return this.favs.map( item => item.code ).includes(code)
-    }
+   
  
 
     drawItem(Props = {code:'Hola', name:'Mundo', fav: false}){
@@ -177,7 +160,7 @@ export class Draw {
                     this.listItems.push({
                         code: key.toUpperCase(),
                         name: resp[key],
-                        fav: this.existInFavs(key.toUpperCase())
+                        fav: this.favs.existInFavs(key.toUpperCase())
                     })
                 }
             }
@@ -195,7 +178,7 @@ export class Draw {
     }
 
     drawOnlyFavs() {
-        const favs = this.favs.map( (item)=> ({
+        const favs = this.favs.favs.map( (item)=> ({
             ...item,
             fav: true
         }))

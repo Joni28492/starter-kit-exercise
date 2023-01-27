@@ -3,6 +3,7 @@
 
 import { fetchMethods } from "./api/fetch.js";
 import { Draw } from "./Draw.js";
+import { Favs } from "./Favs.js";
 
 console.log('Your code starts here 🙂');
 
@@ -14,8 +15,10 @@ console.log('Your code starts here 🙂');
 *
 */
 
+
+const favs = new Favs()
 const http = new fetchMethods()
-const drawInstance = new Draw(http)
+const drawInstance = new Draw(http, favs)
 
 
 

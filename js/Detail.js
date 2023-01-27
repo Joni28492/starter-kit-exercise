@@ -4,16 +4,10 @@ import { fetchMethods } from "./api/fetch.js"
 export class Detail {
 
 
-
-    //todo refactor con abstrac class
-    favs = localStorage.getItem('favs') 
-            ?  JSON.parse(localStorage.getItem('favs')) 
-            : localStorage.setItem('favs', JSON.stringify([]))
- 
-    //obtenemos en el constructor
     code = null
     name = null
-    http = null
+    http = new fetchMethods()    
+    
 
 
     closeBtn = document.querySelector('.js-currencydetail-close')
@@ -27,20 +21,53 @@ export class Detail {
     favsButton = document.querySelector('.currencydetail__addfav') //usar childrens
     dateInput = document.querySelector('.js-currencydetail-date')
 
-    constructor(code, name){
+    static instancia;
+
+
+    constructor(code, name, favs){
+
+        //singleton para evitar multiples instancias
+        if(!!Detail.instancia){
+            
+            this.code = code
+            this.name = name
+            // console.log('sin instancia',{code, name})
+            this.closeBtn = document.querySelector('.js-currencydetail-close')
+            this.body = document.querySelector('body')
+            this.detailedSidebar = document.querySelector('.js-currencydetail')
+        
+            this.title = document.querySelector('.currencydetail__title')
+            this.detailedList = document.querySelector('.js-currencydetail-list')
+            this.listData = null
+        
+            this.favs = favs
+            this.favsButton = document.querySelector('.currencydetail__addfav') //usar childrens
+            this.dateInput = document.querySelector('.js-currencydetail-date')
+            this.drawDetailedList(this.code.toLowerCase())
+      
+
+
+            return Detail.instancia
+        }
+
+       
+
+
         this.code = code
         this.name = name
-        this.http = new fetchMethods()    
-        this.drawDetailedList(this.code.toLowerCase())
-        // console.log(this.existInFavs(this.code))
+        this.favs = favs
         
+        this.drawDetailedList(this.code.toLowerCase())
+        // console.log('con instancia',{code, name})
+
+        // console.log(this.existInFavs(this.code))
         //favs en el detail
         this.favsButton.children[1].textContent = 
-            `${this.existInFavs(this.code) ? 'Remove to favs' : 'Add to favs'}`
+            `${this.favs.existInFavs(this.code) ? 'Remove to favs' : 'Add to favs'}`
         this.favsButton.children[0].children[0].alt = 
-            `${this.existInFavs(this.code) ? 'Remove to favs' : 'Add to favs'}`
+            `${this.favs.existInFavs(this.code) ? 'Remove to favs' : 'Add to favs'}`
         this.favsButton.children[0].children[0].src = 
-            `${this.existInFavs(this.code) ? 'img/ico-fav-selected-outline.svg' : 'img/ico-fav-outline.svg'}`
+            `${this.favs.existInFavs(this.code) ? 'img/ico-fav-selected-outline.svg' : 'img/ico-fav-outline.svg'}`
 
         this.closeBtn.addEventListener('click', ()=>{
             this.body.className = ''
@@ -50,23 +77,35 @@ export class Detail {
         })
 
         
-        this.favsButton.addEventListener('click',()=> this.favsListener())
+        this.favsButton.addEventListener('click',()=> {this.favsListener()})
         
-        
+        Detail.instancia = this
        
     }
+
+
+    
+
 
     favsListener(){
         const img = this.favsButton.children[0].children[0] 
         const span = this.favsButton.children[1]
 
-        //todo fix logs duplicados, por culpa de la instancia
+        const currentCode = document.querySelector('.js-currencydetail-code').textContent
+        const currentName = document.querySelector('.js-currencydetail-name').textContent
+        
+        this.name = currentName
+        this.code = currentCode
+
+
         if(!span.textContent.includes('Add')){
-            this.removeTofavs()
+            this.favs.removeTofavs(this.code, this.name)
+    
         }
         
         if(span.textContent.includes('Add')){
-            this.addToFavs()
+            this.favs.addToFavs(this.code, this.name)
+   
         }
         
         
@@ -74,17 +113,16 @@ export class Detail {
             `${(span.textContent ==='Add to favs') ? 'Remove to favs' : 'Add to favs'}`
         img.alt = 
             `${(img.alt === 'Add to favs') ? 'Remove to favs' : 'Add to favs'}`
-        //todo fix cambio
-        img.src = `${( img.src === 'img/ico-fav-outline.svg') 
+        // //todo fix cambio de svg no quiere modificar el icono
+
+        // //img/ico-fav-selected-outline.svg seleccionado
+        // //img/ico-fav-outline.svg no seleccionado
+        img.src = `${(!this.favs.existInFavs(code, name)) 
                 ? 'img/ico-fav-selected-outline.svg' 
                 : 'img/ico-fav-outline.svg'}`
     }
 
 
-    //abstract favs
-    existInFavs(code='AAVE'){
-        return this.favs.map( item => item.code ).includes(code)
-    }
 
     drawItemDetailed(Props={code: 'ADA', detail: 1.2444}){
 
@@ -113,7 +151,6 @@ export class Detail {
     //uso code como arg por si hay que utlizar esta func en otro sitio fuera de la clase
     async drawDetailedList(code='eur'){
 
-
         await this.http.getByCurrencyCode(code).then( ({date, ...rest}) => {
             this.listData = {
                 date,
@@ -122,16 +159,12 @@ export class Detail {
         })
 
         // console.table(this.listData)
-        
-
         const {date, rest} = this.listData
 
         //setTitle
         this.setTitle(this.code, this.name)
         //modificar input de fecha
         this.dateInput.value = date
-
-
         //dibujar todos los elementos
         let allDetails = []
 
@@ -148,19 +181,12 @@ export class Detail {
 
         
     }
-    setTitle(){
 
+
+    setTitle(){
         this.title.children[0].textContent = this.code.toUpperCase()
         this.title.children[1].textContent = this.name
-        
-
     }
 
 
-    addToFavs(){
-        console.log('Add to favs')
-    }
-    removeTofavs(){
-        console.log('Remove to favs')
-    }
 }
